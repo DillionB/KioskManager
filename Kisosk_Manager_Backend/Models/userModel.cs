@@ -1,4 +1,4 @@
-﻿namespace KioskManager_Back.Models
+﻿namespace KioskManager_Backend.Models
 {
     public class userModel
     {

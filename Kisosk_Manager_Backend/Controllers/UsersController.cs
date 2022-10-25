@@ -3,6 +3,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
+using KioskManager_Backend.Models;
 
 
 
@@ -45,24 +46,42 @@ namespace Kisosk_Manager_Backend.Controllers
 
         // POST api/<UsersController>
         [HttpPost]
-        public string Post([FromBody] string value)
+        [Route("registration")]
+        public string registration(userModel userModel)
         {
             //return value + "successful"
-            SqlCommand cmd = new SqlCommand("Insert into dbo.Users(USERNAME) VALUES ('"+value+"')", con);
+            SqlCommand cmd = new SqlCommand("Insert into dbo.Users(USERNAME, PASSWORD) VALUES ('"+ userModel.UserName+"', '"+ userModel.Password +"')", con);
             con.Open();
            
             int i = cmd.ExecuteNonQuery();
             con.Close();
             if(i ==1)
             {
-                return "inserted with value" + value;
+                return "data inserted";
             }
             else
             {
                 return "try again";
             }
-
         }
+        [HttpPost]
+        [Route("signin")]
+        public string signin(userModel userModel)
+        {
+            SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM dbo.Users WHERE USERNAME = '"+ userModel.UserName + "' AND PASSWORD = '"+ userModel.Password +"' ", con);
+            con.Open();
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            if(dt.Rows.Count > 0)
+            {
+                return "valid user";
+            }
+            else
+            {
+                return "invalid user";
+            }
+        }
+
 
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]

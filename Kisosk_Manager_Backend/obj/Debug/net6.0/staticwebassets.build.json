@@ -1,0 +1,46 @@
+{
+  "Version": 1,
+  "Hash": "yx8Yg1UHy+nzl/yIpgWXdV46klJSd4aheM0PzKVXhvU=",
+  "Source": "Kisosk_Manager_Backend",
+  "BasePath": "_content/Kisosk_Manager_Backend",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\dilli\\source\\repos\\Kisosk_Manager_Fullstack\\Kisosk_Manager_Backend\\obj\\Debug\\net6.0\\scopedcss\\bundle\\Kisosk_Manager_Backend.styles.css",
+      "SourceId": "Kisosk_Manager_Backend",
+      "SourceType": "Computed",
+      "ContentRoot": "C:\\Users\\dilli\\source\\repos\\Kisosk_Manager_Fullstack\\Kisosk_Manager_Backend\\obj\\Debug\\net6.0\\scopedcss\\bundle\\",
+      "BasePath": "_content/Kisosk_Manager_Backend",
+      "RelativePath": "Kisosk_Manager_Backend.styles.css",
+      "AssetKind": "All",
+      "AssetMode": "CurrentProject",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "ScopedCss",
+      "AssetTraitValue": "ApplicationBundle",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "C:\\Users\\dilli\\source\\repos\\Kisosk_Manager_Fullstack\\Kisosk_Manager_Backend\\obj\\Debug\\net6.0\\scopedcss\\bundle\\Kisosk_Manager_Backend.styles.css"
+    },
+    {
+      "Identity": "C:\\Users\\dilli\\source\\repos\\Kisosk_Manager_Fullstack\\Kisosk_Manager_Backend\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\Kisosk_Manager_Backend.bundle.scp.css",
+      "SourceId": "Kisosk_Manager_Backend",
+      "SourceType": "Computed",
+      "ContentRoot": "C:\\Users\\dilli\\source\\repos\\Kisosk_Manager_Fullstack\\Kisosk_Manager_Backend\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\",
+      "BasePath": "_content/Kisosk_Manager_Backend",
+      "RelativePath": "Kisosk_Manager_Backend.bundle.scp.css",
+      "AssetKind": "All",
+      "AssetMode": "Reference",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "ScopedCss",
+      "AssetTraitValue": "ProjectBundle",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "C:\\Users\\dilli\\source\\repos\\Kisosk_Manager_Fullstack\\Kisosk_Manager_Backend\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\Kisosk_Manager_Backend.bundle.scp.css"
+    }
+  ]
+}
