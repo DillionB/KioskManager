@@ -25,12 +25,21 @@ const Register = () => {
 
     const [USERNAME, setUSERNAME] = useState(``)
     const [PASSWORD, setPASSWORD] = useState(``)
+    const ROLE = ``
     
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        await axios.post("https://localhost:7242/api/Users/registration",
-            { USERNAME, PASSWORD })
+        try {
+            const response = await axios.post("https://localhost:7242/api/Users/registration",
+                { USERNAME, PASSWORD, ROLE},
+
+            );
+            console.log(response)
+        } catch (err) {
+
+        }
+
     }
 
   return (

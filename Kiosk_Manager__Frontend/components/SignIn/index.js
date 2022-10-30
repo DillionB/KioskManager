@@ -1,4 +1,5 @@
 import { React, useRef, useState, useEffect, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import AuthContext from "../../context/AuthProvider";
 import {
   Container,
@@ -15,6 +16,9 @@ import {
   NavBtnLink
 } from './SigninElements';
 import axios from 'axios'
+import { createContext } from 'react';
+
+
 
 
 const SignIn = () => {
@@ -25,8 +29,21 @@ const SignIn = () => {
 
     const [USERNAME, setUSERNAME] = useState(``);
     const [PASSWORD, setPASSWORD] = useState(``);
+    const ROLE = 'admin';
     const [errMsg, setErrMsg] = useState(``);
     const [success, setSuccess] = useState(false);
+    const [activeRole, setActiveRole] = useState(`nn`);
+
+    const history = useHistory()
+    
+
+    const UserContext = createContext([
+        {
+            username: ``,
+            role: ``,
+        },
+        (obj) => obj
+    ])
 
     useEffect(() => {
         userRef.current.focus();
@@ -34,24 +51,30 @@ const SignIn = () => {
 
     useEffect(() => {
         setErrMsg(``);
-    }, [USERNAME, ])
+    }, [USERNAME,])
+
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
             const response = await axios.post("https://localhost:7242/api/Users/signin",
-                { USERNAME, PASSWORD },
-                {
-                    headers: { 'Content-Type': 'applications/json' },
-                    withCredentials: true
-                }
+                { USERNAME, PASSWORD, ROLE },
+        
             );
-            console.log(response)
+            setActiveRole(response.data)
+            console.log(activeRole)
+            if (response.data === 'admin') {
+                history.push('/admin')
+            }
+            else {
+                history.push('/user')
+            }
         } catch (err) {
-
+            console.log("no role")
         }
         
     }
+
 
   return (
     <>
