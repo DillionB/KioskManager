@@ -25,9 +25,9 @@ namespace Kisosk_Manager_Backend.Controllers
         {
             //return new string[] { "value1", "value2" };
             SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM dbo.Users", con);
-            DataTable dt= new DataTable();
+            DataTable dt = new DataTable();
             da.Fill(dt);
-            if(dt.Rows.Count>0)
+            if (dt.Rows.Count > 0)
             {
                 return JsonConvert.SerializeObject(dt);
             }
@@ -36,7 +36,118 @@ namespace Kisosk_Manager_Backend.Controllers
                 return "no data";
             }
         }
+        [HttpGet]
+        [Route("GetTickets")]
+        public string GetTickets()
+        {
+            //return new string[] { "value1", "value2" };
+            SqlDataAdapter da2 = new SqlDataAdapter("SELECT * FROM dbo.Tickets", con);
+            DataTable dt2 = new DataTable();
+            da2.Fill(dt2);
+            if (dt2.Rows.Count > 0)
+            {
+                return JsonConvert.SerializeObject(dt2);
+            }
+            else
+            {
+                return "no data";
+            }
+        }
 
+        [HttpPost]
+        [Route("NewTicket")]
+        public string NewTicket(ticketModel ticketModel)
+        {
+            //return value + "successful"
+            SqlCommand cmd = new SqlCommand("Insert into dbo.Tickets(Title, Description) VALUES ('" + ticketModel.Title + "', '" + ticketModel.Description + "')", con);
+            con.Open();
+
+            int i = cmd.ExecuteNonQuery();
+            con.Close();
+            if (i == 1)
+            {
+                return "data inserted";
+            }
+            else
+            {
+                return "try again";
+            }
+        }
+        [HttpDelete]
+        [Route("DeleteTicket")]
+        public string DeleteTicket(int ID)
+        {
+            //return value + "successful"
+            SqlCommand cmdd = new SqlCommand("DELETE FROM dbo.Tickets WHERE ID ='" + ID + "'", con);
+            con.Open();
+
+            int i = cmdd.ExecuteNonQuery();
+            con.Close();
+            if (i == 1)
+            {
+                return "data deleted";
+            }
+            else
+            {
+                return "try again " + ID;
+            }
+        }
+        [HttpGet]
+        [Route("GetArchive")]
+        public string GetArchive()
+        {
+            //return new string[] { "value1", "value2" };
+            SqlDataAdapter da2 = new SqlDataAdapter("SELECT * FROM dbo.Archive", con);
+            DataTable dt2 = new DataTable();
+            da2.Fill(dt2);
+            if (dt2.Rows.Count > 0)
+            {
+                return JsonConvert.SerializeObject(dt2);
+            }
+            else
+            {
+                return "no data";
+            }
+        }
+
+        [HttpPost]
+        [Route("NewArchive")]
+        public string NewArchive(ticketModel ticketModel)
+        {
+            //return value + "successful"
+            SqlCommand cmd = new SqlCommand("Insert into dbo.Archive(Title, Description) VALUES ('" + ticketModel.Title + "', '" + ticketModel.Description + "')", con);
+            con.Open();
+
+            int i = cmd.ExecuteNonQuery();
+            con.Close();
+            if (i == 1)
+            {
+                return "data inserted";
+            }
+            else
+            {
+                return "try again";
+            }
+        }
+        [HttpDelete]
+        [Route("DeleteArchive")]
+        public string DeleteArchive(int ID)
+        {
+            //return value + "successful"
+            SqlCommand cmdd = new SqlCommand("DELETE FROM dbo.Archive WHERE ID ='" + ID + "'", con);
+            con.Open();
+
+            int i = cmdd.ExecuteNonQuery();
+            con.Close();
+            if (i == 1)
+            {
+                return "data deleted";
+            }
+            else
+            {
+                return "try again " + ID;
+            }
+        }
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
         public string Get(int id)
@@ -50,12 +161,12 @@ namespace Kisosk_Manager_Backend.Controllers
         public string registration(userModel userModel)
         {
             //return value + "successful"
-            SqlCommand cmd = new SqlCommand("Insert into dbo.Users(USERNAME, PASSWORD) VALUES ('"+ userModel.UserName+"', '"+ userModel.Password +"')", con);
+            SqlCommand cmd = new SqlCommand("Insert into dbo.Users(USERNAME, PASSWORD, ROLE) VALUES ('" + userModel.UserName + "', '" + userModel.Password + "', 'user' )", con);
             con.Open();
-           
+
             int i = cmd.ExecuteNonQuery();
             con.Close();
-            if(i ==1)
+            if (i == 1)
             {
                 return "data inserted";
             }
@@ -68,17 +179,30 @@ namespace Kisosk_Manager_Backend.Controllers
         [Route("signin")]
         public string signin(userModel userModel)
         {
-            SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM dbo.Users WHERE USERNAME = '"+ userModel.UserName + "' AND PASSWORD = '"+ userModel.Password +"' ", con);
+            SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM dbo.Users WHERE USERNAME = '" + userModel.UserName + "' AND PASSWORD = '" + userModel.Password + "' AND ROLE = '"+userModel.Role+"' ", con);
             con.Open();
             DataTable dt = new DataTable();
             da.Fill(dt);
-            if(dt.Rows.Count > 0)
+            if (dt.Rows.Count > 0)
             {
-                return "valid user";
+                return "admin";
             }
             else
             {
-                return "invalid user";
+                SqlDataAdapter da2 = new SqlDataAdapter("SELECT * FROM dbo.Users WHERE USERNAME = '" + userModel.UserName + "' AND PASSWORD = '" + userModel.Password + "'  ", con);
+                
+                DataTable dt2 = new DataTable();
+                da2.Fill(dt2);
+                if (dt2.Rows.Count > 0)
+                {
+                    return "user";
+                }
+                else
+                {
+                   
+                    return "invalid user";
+                }
+               
             }
         }
 
