@@ -8,6 +8,8 @@ function TicketFormArchive(props) {
     const [input, setInput] = useState(props.edit ? props.edit.value : '');
     const [Title, setTitle] = useState(``);
     const [Description, setDescription] = useState(``)
+    const [Owner, setOwner] = useState(``);
+    const [Type, set] = useState(`green`)
 
   const inputRef = useRef(null);
 
@@ -47,12 +49,15 @@ function TicketFormArchive(props) {
         for (i - 0; i <= test.length; i++) {
             if (i <= test.length) {
 
-                let { Title } = test[i]
+                let { Title, Description, Owner, Type } = test[i]
                 props.onSubmit({
                     id: Math.floor(Math.random() * 10000+i),
-                    text: `${Title}`
+                    text: `${Title}`,
+                    description: `${Description}`,
+                    owner: `${Owner}`,
+                    type: `${Type}`
                 });
-                console.log(i)
+                
                 
                 setInput(``);
             }

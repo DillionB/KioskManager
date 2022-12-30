@@ -16,7 +16,7 @@ function TicketList() {
         
 
         todos.push(todo);
-        console.log(todos)
+        
 
     if (!todo.text || /^\s*$/.test(todo.text)) {
       return;
@@ -25,7 +25,7 @@ function TicketList() {
     const newTodos = [...todos];
 
     setTodos(newTodos);
-    console.log(...todos);
+    
   };
 
   const updateTodo = (todoId, newValue) => {
@@ -35,6 +35,7 @@ function TicketList() {
 
     setTodos(prev => prev.map(item => (item.id === todoId ? newValue : item)));
   };
+
     const removeTodo = async id => {
         const removedArr = [...todos].filter(todo => todo.id !== id);
         const removedTicket = [...todos].filter(todo => todo.id === id);
@@ -42,16 +43,18 @@ function TicketList() {
         
 
         
-
+        
         const Title = Ticket.text
         const Description = Ticket.text
+        const Type = Ticket.type
+        const Owner = Ticket.owner
 
         await axios.post("https://localhost:7242/api/Users/NewArchive",
-        { Title, Description })
+            { Type, Title, Owner, Description })
         const i = id
        
         
-        console.log(axios.delete("https://localhost:7242/api/Users/DeleteTicket", { params: { Id: id } } ))
+        axios.delete("https://localhost:7242/api/Users/DeleteTicket", { params: { Id: id } } )
         window.location.reload();
     setTodos(removedArr);  
   };

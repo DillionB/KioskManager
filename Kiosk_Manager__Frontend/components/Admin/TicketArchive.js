@@ -23,7 +23,7 @@ const TicketArchive = ({ todos, completeTodo, removeTodo, updateTodo }) => {
 
   return todos.map((todo, index) => (
     <div
-      className={todo.isComplete ? 'todo-row complete' : 'todo-row'}
+          className={todo.isComplete ? 'todo-row complete' : `${todo.owner}`}
       key={index}
     >
       <div key={todo.id} onClick={() => completeTodo(todo.id)}>
@@ -31,13 +31,10 @@ const TicketArchive = ({ todos, completeTodo, removeTodo, updateTodo }) => {
       </div>
       <div className='icons'>
         <RiCloseCircleLine
-          onClick={() => removeTodo(todo.id)}
+                  onClick={() => console.log(todo.type)}
           className='delete-icon'
         />
-        <TiEdit
-          onClick={() => setEdit({ id: todo.id, value: todo.text })}
-          className='edit-icon'
-        />
+        
       </div>
     </div>
   ));

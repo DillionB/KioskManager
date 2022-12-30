@@ -8,6 +8,8 @@ function TicketForm(props) {
     const [input, setInput] = useState(props.edit ? props.edit.value : '');
     const [Title, setTitle] = useState(``);
     const [Description, setDescription] = useState(``)
+    const [Owner, setOwner] = useState(`green`);
+    const [Type, set] = useState(`green`)
 
   const inputRef = useRef(null);
 
@@ -27,7 +29,7 @@ function TicketForm(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
       const response = await axios.post("https://localhost:7242/api/Users/NewTicket",
-          { Title, Description })
+          { Type, Title, Owner, Description })
       
       const test = response.data[0]
       const { Ticket, Id } = test[i]
@@ -48,12 +50,15 @@ function TicketForm(props) {
         for (i - 0; i <= test.length; i++) {
             if (i <= test.length) {
 
-                let { Title, Id } = test[i]
+                let { Title, Id, Description, Owner, Type} = test[i]
                 props.onSubmit({
                     id: `${Id}`,
-                    text: `${Title}`
+                    text: `${Title}`,
+                    description: `${Description}`,
+                    owner: `${Owner}`,
+                    type: `${Type}`
                 });
-                console.log(i)
+                
                 
                 setInput(``);
             }

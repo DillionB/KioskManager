@@ -1,95 +1,104 @@
 import React from "react";
-import { AreaChart, Area, Tooltip, ResponsiveContainer } from "recharts";
+import { PieChart, Pie, Sector, Cell, Legend, Tooltip, ResponsiveContainer } from 'recharts';
 
-const data = [
-    {
-        data2: 2000,
-        data1: 2400,
-    },
-    {
-        data2: 4000,
-        data1: 1398,
-    },
-    {
-        data2: 5000,
-        data1: 12800,
-    },
-    {
-        data2: 8780,
-        data1: 3908,
-    },
-    {
-        data2: 9890,
-        data1: 4800,
-    },
-    {
-        data2: 11390,
-        data1: 3800,
-    },
-    {
-        data2: 3490,
-        data1: 4300,
-    },
-];
+import axios from 'axios'
 
-export default function Transactions() {
+
+
+function pieChart() {
+    let greenCount = 1;
+    let blueCount = 1;
+    let yellowCount = 1;
+    let redCount = 1;
+
+    const data01 = [
+        { name: 'Green', value: greenCount },
+        { name: 'Blue', value: blueCount },
+        { name: 'Yellow', value: yellowCount },
+        { name: 'Red', value: redCount },
+
+    ];
+    const handlePieLoad = async () => {
+        const response = await axios.get("https://localhost:7242/api/Users/GetTickets",)
+        const types = response.data;
+
+        let i = 0
+
+        for (i - 0; i <= types.length; i++) {
+            if (types[i].Type === 'green     ') {
+                greenCount++
+
+            } else {
+                if (types[i].Type === 'blue      ') {
+                    blueCount++
+
+                } else {
+                    if (types[i].Type === 'Yello     ') {
+                        yellowCount++
+
+                    } else {
+                        if (types[i].Type === 'red       ') {
+                            redCount++
+                        } else {
+                            console.log('error')
+                        }
+                    }
+                }
+            }
+        }
+    };
+   // handlePieLoad()
+
+
+    const data = [
+        { name: 'Group A', value: 400 },
+
+    ];
+    const COLORS = ['#64c943', '#ff0000', '#0053e2', '#ffff00'];
+    const COLORS2 = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
     return (
-        <div className="transactions">
-            <div className="transactions__info">
-                <h3>Transactions</h3>
-                <div className="transactions__info__detailed">
-                    <div>
-                        <h5>You Bought :</h5>
-                        <h4>$140,734.01</h4>
-                    </div>
-                    <div>
-                        <h5>You Sold : </h5>
-                        <h4>$347,735,011.14</h4>
-                    </div>
-                </div>
-            </div>
-            <div className="transactions__details">
-                <div>
-                    <h4>Statistics</h4>
-                    <h4>Up by 50%</h4>
-                </div>
-                <div>
-                    <button>Year</button>
-                    <button>Month</button>
-                </div>
-            </div>
-            <div className="transactions__graph">
-                <ResponsiveContainer width="100%" height="100%">
-                    <AreaChart
-                        width={500}
-                        height={400}
-                        data={data}
-                        margin={{
-                            top: 10,
-                        }}
-                    >
-                        <defs>
-                            <linearGradient id="colorview" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="30%" stopColor="#ff4d6d" stopOpacity={0.4} />
-                                <stop offset="85%" stopColor="#ff4d6d11" stopOpacity={0.2} />
-                            </linearGradient>
-                        </defs>
-                        <Tooltip cursor={false} />
-                        <Area
-                            type="monotone"
-                            dataKey="data2"
-                            stroke="#ee3b3b"
-                            fill="url(#colorview)"
-                        />
-                        <Area
-                            type="monotone"
-                            dataKey="data1"
-                            stroke="#ee3b3b"
-                            fill="url(#colorview)"
-                        />
-                    </AreaChart>
-                </ResponsiveContainer>
+        <div >
+                            <PieChart className='pie' width={400} height={400}>
+
+                                <Pie
+                                    dataKey="value"
+                                    data={data01}
+                                    cx={190}
+                                    cy={175}
+                                    innerRadius={60}
+                                    outerRadius={120}
+                                fill="#82ca9d"
+
+                                >
+                                {data.map((entry, index) => (
+                                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                ))}
+                            </Pie>
+
+                                <Tooltip />
+                            </PieChart>
+                            <div >
+
+                                <PieChart className='pie2' width={400} height={400}>
+                                    <Pie
+                                        data={data}
+                                        cx={120}
+                                        cy={200}
+                                        innerRadius={80}
+                                        outerRadius={100}
+                                        fill="#8884d8"
+                                        paddingAngle={5}
+                                        dataKey="value"
+                                    >
+                                        {data.map((entry, index) => (
+                                            <Cell key={`cell-${index}`} fill={COLORS2[index % COLORS.length]} />
+                                        ))}
+                                    </Pie>
+                                    
+                                    <Tooltip />
+                </PieChart>
             </div>
         </div>
     );
 }
+export default pieChart

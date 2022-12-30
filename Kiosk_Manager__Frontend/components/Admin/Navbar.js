@@ -13,6 +13,9 @@ import {
   NavBtn,
   NavBtnLink
 } from './NavbarElements';
+import Dropdown from './Dropdown';
+import { Link } from 'react-router-dom';
+
 
 const Navbar = ({ toggle }) => {
   const [scrollNav, setScrollNav] = useState(false);
@@ -32,7 +35,27 @@ const Navbar = ({ toggle }) => {
   const toggleHome = () => {
     scroll.scrollToTop();
   };
+     const [click, setClick] = useState(false);
+    const [dropdown, setDropdown] = useState(false);
 
+    const handleClick = () => setClick(!click); 
+    const closeMobileMenu = () => setClick(false);
+
+    const onMouseEnter = () => {
+        if (window.innerWidth < 960) {
+            setDropdown(false);
+        } else {
+            setDropdown(true);
+        }
+    };
+
+    const onMouseLeave = () => {
+        if (window.innerWidth < 960) {
+            setDropdown(false);
+        } else {
+            setDropdown(false);
+        }
+    };
   return (
     <>
       <IconContext.Provider value={{ color: '#fff' }}>
@@ -93,7 +116,8 @@ const Navbar = ({ toggle }) => {
                                   Archive
                 </NavLinks>
               </NavItem>
-            </NavMenu>
+                      </NavMenu>
+                      
             <NavBtn>
               <NavBtnLink to='/signin'>Sign out</NavBtnLink>
             </NavBtn>

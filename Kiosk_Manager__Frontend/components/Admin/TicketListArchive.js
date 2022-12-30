@@ -11,7 +11,7 @@ function TicketListArchive() {
         
 
         todos.push(todo);
-        console.log(todos)
+        
 
     if (!todo.text || /^\s*$/.test(todo.text)) {
       return;
@@ -20,7 +20,7 @@ function TicketListArchive() {
     const newTodos = [...todos];
 
     setTodos(newTodos);
-    console.log(...todos);
+    ;
   };
 
   const updateTodo = (todoId, newValue) => {
