@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import './User.css';
 import mapStyles from './mapStyles';
-import projImg from "./project-img.PNG";
-import Modal from "./Modal";
+import projIm1 from "./project-im1.PNG";
+import projIm2 from "./project-im2.PNG";
+import projIm3 from "./project-im3.PNG";
+import projIm4 from "./project-im4.PNG";
+import { Modal } from './Modal'
 import { ProjectCard } from "./ProjectCard";
 import { Container, Row, Col, Tab, Nav } from "react-bootstrap";
 //import { GoogleMap, GoogleApiWrapper} from 'google-maps-react' 
@@ -15,7 +18,7 @@ import {
     InfoWindow,
 } from "@react-google-maps/api";
 import Navbar from './Navbar';
-
+import axios from 'axios';
 
 
 const mapContainerStyle = {
@@ -33,58 +36,112 @@ let center = {
     lat: mLat,
     lng: mLng,
 };
-const projects = [
-    {
-        title: "Business Startup",
-        description: "Design & Development",
-        imgUrl: projImg,
-        lat: 33.508376,
-        lng: -112.274036
-    },
-    {
-        title: "Business Startup",
-        description: "Design & Development",
-        imgUrl: projImg,
-        lat: 33.408376,
-        lng: -112.169036
-    },
-    {
-        title: "Business Startup",
-        description: "Design & Development",
-        imgUrl: projImg,
-        lat: 33.608376,
-        lng: -112.082036
-    },
-    {
-        title: "Business Startup",
-        description: "Design & Development",
-        imgUrl: projImg,
-        lat: 36.508376,
-        lng: -111.94036
-    },
-    {
-        title: "Business Startup",
-        description: "Design & Development",
-        imgUrl: projImg,
-        lat: 37.508376,
-        lng: -116.074036
-    },
-    {
-        title: "Business Startup",
-        description: "Design & Development",
-        imgUrl: projImg,
-        lat: 38.508376,
-        lng: -117.074036
-    },
-   
-];
+
+
+
+
+
 
 
 export default function User() {
     const [userLat, setUserLat] = useState();
     const [userLong, setUserLong] = useState();
     const [map, setMap] = useState();
+    const [showModal, setShowModal] = useState(false);
+    const [modalProject, setModalProject] = useState('');
+    const [Mproject, setMproject] = useState('');
+    const [selectedMarker, setSelectedMarker] = useState(null);
 
+    
+
+    let [projectsArr, setProjectsArr] = useState([
+        {
+            Id: 0,
+            Title: "Business Startup",
+            Description: "Design & Development",
+            imgUrl: projIm1,
+            Lat: 33.508376,
+            Lng: -112.274036
+        },
+        {
+            Id: 1,
+            Title: "Business Startup",
+            Description: "Design & Development",
+            imgUrl: projIm2,
+            Lat: 33.408376,
+            Lng: -112.169036
+        },
+        {
+            Id: 2,
+            Title: "Thunderbird 19th",
+            Description: "Climate Controlled- Indoors",
+            imgUrl: projIm3,
+            Lat: 33.608376,
+            Lng: -112.082036
+        },
+        {
+            Id: 3,
+            Title: "Business Startup",
+            Description: "Design & Development",
+            imgUrl: projIm4,
+            Lat: 36.508376,
+            Lng: -111.974036
+        },
+        {
+            Id: 4,
+            Title: "Business Startup",
+            Description: "Design & Development",
+            imgUrl: projIm1,
+            Lat: 37.508376,
+            Lng: -116.074036
+        },
+        {
+            Id: 5,
+            Title: "Business Startup",
+            Description: "Design & Development",
+            imgUrl: projIm1,
+            Lat: 38.508376,
+            Lng: -117.074036
+        },
+
+    ]);
+
+   // let Mproject = '';
+
+    let items = useState([
+        { lat: 37.772, lng: -122.214 },
+        { lat: 21.291, lng: -157.821 },
+        { lat: -18.142, lng: 178.431 },
+        { lat: -27.467, lng: 153.027 },
+    ])[0];
+
+    let setItems = useState([
+        
+    ])[1];
+
+    const openModal = (project) => {
+       
+        setShowModal(prev => !prev);
+        setMproject(project)
+       
+    };
+    useEffect(() => {
+        handleLoad();
+    }, [])
+    
+    const handleLoad = async () => {
+        const response = await axios.get("https://localhost:7242/api/Users/GetLocations",)
+
+        
+        
+      setProjectsArr(response.data)
+       
+        
+    }
+    
+    
+    
+  
     function pan(mLat, mLng) {
         
         map.panTo({
@@ -96,25 +153,18 @@ export default function User() {
     }
 
    
-    useEffect(() => {
-        navigator.geolocation.getCurrentPosition(position => {
-            setUserLat(position.coords.latitude);
-            setUserLong(position.coords.longitude);
-            console.log(userLat, userLong);
-        })
-    }, []);   
-
+    
     const { isLoaded, loadError } = useLoadScript({
-        googleMapsApiKey: "AIzaSyCLsKrS1B4g7hWrdIzMfoc3X8pEQsit-_0"
+        googleMapsApiKey: "AIzaSyBRQQbIGEsh1leSufSXKQaCRWnnWV1AD2Q"
     });
     if (loadError) return "Error";
-    if (!isLoaded) return "Loading...";
-
-
+    
+    if (!isLoaded) return <div>Loading...</div>;
+    
     return ( 
         <div className="Nav"><Navbar />
         <div className="container">
-        
+                
                 
             <div className="controls">
                     <Tab.Container className="project" id="projects-tabs" >
@@ -124,40 +174,16 @@ export default function User() {
                             <Tab.Pane eventKey="first">
                                 <Row onClick={() => {
                                     //console.log(pan(38.508376,-117.074036 ))
-
-                                    /*
-                        {
-                          projects.map((project, index) => {
-                                let lat = project.lat
-                                let lng = project.lng
-                                return (
                                     
-                                    <Marker
-                                        position={{
-                                            lat: lat,
-
-                                            lng: lng,
-
-                                    }} 
-                                    />
-
-                                )
-                            })
-                        }
-                        */
-                                     
-                                        
                                         return (
                                             
                                            console.log('')
 
                                         )
 
-                                    
-
                                 }} >
                                     {
-                                        projects.map((project, index) => {
+                                        projectsArr.map((project, index) => {
 
                                             return (
 
@@ -180,22 +206,21 @@ export default function User() {
 
             <GoogleMap
                 mapContainerStyle={mapContainerStyle}
-                zoom={12}
+                zoom={13}
                 center={center}
                         options={options}
                         onLoad={map=>setMap(map)}
                     >
-                        <Marker position={{
-                            lat: 33.508376,
-                            lng: -112.074036,
-                        }} onClick={() => {
-                            map.panTo({
-                                lat: 33.508376,
-                                lng: -112.074036,
-                            })
-                           
-                            }} />
-                         
+
+                        {projectsArr && projectsArr.length > 0 && projectsArr.map((project, index) => {
+                            console.log(project.Lat);
+                            
+                            return <Marker onClick={() => openModal(project)} key={index} position={{ lat: project.Lat, lng: project.Lng }} />
+                        })}
+
+                        
+                        
+                        <Modal showModal={showModal} setShowModal={setShowModal} project={Mproject} />
                     </GoogleMap>
                     
                 </div>
