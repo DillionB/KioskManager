@@ -75,6 +75,46 @@ const SignIn = () => {
         
     }
 
+    const handleLoad = async (e) => {
+        e.preventDefault()
+        try {
+            const response = await axios.post("https://localhost:7242/api/Users/signin",
+                { USERNAME, PASSWORD, ROLE },
+
+            );
+            setActiveRole(response.data)
+            console.log(activeRole)
+            if (response.data === 'admin') {
+                history.push('/admin')
+            }
+            else {
+                history.push('/user')
+            }
+        } catch (err) {
+            console.log("no role")
+        }
+
+    }
+    const handleAdmin = async (e) => {
+        e.preventDefault()
+        try {
+            const response = await axios.post("https://localhost:7242/api/Users/signin",
+                { USERNAME, PASSWORD, ROLE },
+
+            );
+            setActiveRole(response.data)
+            console.log(activeRole)
+            if (response.data === 'admin') {
+                history.push('/admin')
+            }
+            else {
+                history.push('/admin')
+            }
+        } catch (err) {
+            console.log("no role")
+        }
+
+    }
 
   return (
     <>
@@ -105,6 +145,15 @@ const SignIn = () => {
                           <NavBtn>
                               <NavBtnLink to='/register'>Create a New Account</NavBtnLink>
                           </NavBtn>
+                          <div>
+                              <NavBtn>
+                                  <NavBtnLink onClick={handleLoad}>User Demo</NavBtnLink>
+                                  <NavBtn>
+                                      <NavBtnLink onClick={handleAdmin} >Admin Demo</NavBtnLink>
+                                  </NavBtn>
+                                </NavBtn>
+                          
+                          </div>
             </Form>
           </FormContent>
         </FormWrap>

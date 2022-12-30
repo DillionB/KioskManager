@@ -21,7 +21,8 @@ export const Container = styled.div`
 export const NavBtn = styled.nav`
   display: flex;
   align-items: center;
-
+  margin-bottom: 5px;
+  margin-top: 5px;
   
 `;
 
