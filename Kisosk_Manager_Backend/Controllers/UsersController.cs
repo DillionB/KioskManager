@@ -53,13 +53,87 @@ namespace Kisosk_Manager_Backend.Controllers
                 return "no data";
             }
         }
+        
+        [HttpGet]
+        [Route("GetLocations")]
+        public string GetLocations()
+        {
+            //return new string[] { "value1", "value2" };
+            SqlDataAdapter daL = new SqlDataAdapter("SELECT * FROM dbo.Locations", con);
+            DataTable dtL = new DataTable();
+            daL.Fill(dtL);
+            if (dtL.Rows.Count > 0)
+            {
+                return JsonConvert.SerializeObject(dtL);
+            }
+            else
+            {
+                return "no data";
+            }
+        }
+        [HttpPost]
+        [Route("NewLocation")]
+        public string NewLocation(locationModel locationModel)
+        {
+            //return value + "successful"
+            SqlCommand cmdL = new SqlCommand("Insert into dbo.Locations(TempName, TempDesc, FileUploadName, Lat, Lng, TempCode, LeaseStart, LeaseEnd, FxF, FxT, FxFT, TxT, TxFT, TxTW, TxTWF, TxTH, Car, Insurance) VALUES ('" + locationModel.TempName + "', '" + locationModel.TempDesc + "','" + locationModel.FileUploadName + "', '" + locationModel.Lat + "', '" + locationModel.Lng + "', '" + locationModel.TempCode + "', '" + locationModel.LeaseStart + "', '" + locationModel.LeaseEnd + "', '" + locationModel.FxF + "', '" + locationModel.FxT + "', '" + locationModel.FxFT + "', '" + locationModel.TxT + "', '" + locationModel.TxFT + "', '" + locationModel.TxTW + "', '" + locationModel.TxTWF + "', '" + locationModel.TxTH + "', '" + locationModel.Car + "', '" + locationModel.Insurance + "')", con);
+            con.Open();
 
+            int i = cmdL.ExecuteNonQuery();
+            con.Close();
+            if (i == 1)
+            {
+                return "data inserted";
+            }
+            else
+            {
+                return "try again";
+            }
+        }
+        [HttpDelete]
+        [Route("DeleteLocation")]
+        public string DeleteLocation(int ID)
+        {
+            //return value + "successful"
+            SqlCommand cmdd = new SqlCommand("DELETE FROM dbo.Locations WHERE ID ='" + ID + "'", con);
+            con.Open();
+
+            int i = cmdd.ExecuteNonQuery();
+            con.Close();
+            if (i == 1)
+            {
+                return "data deleted";
+            }
+            else
+            {
+                return "try again " + ID;
+            }
+        }
         [HttpPost]
         [Route("NewTicket")]
         public string NewTicket(ticketModel ticketModel)
         {
             //return value + "successful"
-            SqlCommand cmd = new SqlCommand("Insert into dbo.Tickets(Title, Description) VALUES ('" + ticketModel.Title + "', '" + ticketModel.Description + "')", con);
+            SqlCommand cmd = new SqlCommand("Insert into dbo.Tickets(Title, Description, Owner, Type) VALUES ('" + ticketModel.Title + "', '" + ticketModel.Description + "', '" + ticketModel.Type + "', '" + ticketModel.Owner + "')", con);
+            con.Open();
+
+            int i = cmd.ExecuteNonQuery();
+            con.Close();
+            if (i == 1)
+            {
+                return "data inserted";
+            }
+            else
+            {
+                return "try again";
+            }
+        }
+        [HttpPost]
+        [Route("UpdateTicket")]
+        public string UpdateTicket(ticketModel ticketModel)
+        {
+            //return value + "successful"
+            SqlCommand cmd = new SqlCommand("UPDATE dbo.Tickets SET Title = '" + ticketModel.Title + "', Description = '" + ticketModel.Description + "', Owner = '" + ticketModel.Owner + "', Type = '" + ticketModel.Type + "' WHERE Id = '" + ticketModel.Id + "'", con);
             con.Open();
 
             int i = cmd.ExecuteNonQuery();
@@ -115,7 +189,7 @@ namespace Kisosk_Manager_Backend.Controllers
         public string NewArchive(ticketModel ticketModel)
         {
             //return value + "successful"
-            SqlCommand cmd = new SqlCommand("Insert into dbo.Archive(Title, Description) VALUES ('" + ticketModel.Title + "', '" + ticketModel.Description + "')", con);
+            SqlCommand cmd = new SqlCommand("Insert into dbo.Archive(Title, Description, Owner, Type) VALUES ('" + ticketModel.Title + "', '" + ticketModel.Description + "', '" + ticketModel.Type + "', '" + ticketModel.Owner + "')", con);
             con.Open();
 
             int i = cmd.ExecuteNonQuery();
